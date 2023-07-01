@@ -28,12 +28,12 @@ void main()
 
 void radix_sort(int *vetor, int n)
 {
-    // Achar a maior chave
-    int max = vetor[0];
+    int max = vetor[0]; // Maior número
     int i;
     int div = 1;
     int *temp = (int *)malloc(sizeof(int) * n);
 
+    // Achar a maior número
     for (i = 0; i < n; i++)
     {
         if (vetor[i] > max)
@@ -43,9 +43,8 @@ void radix_sort(int *vetor, int n)
     // Enquanto o maior número for divisivel
     while (max > 0)
     {
-        // Faça o counting sort com o divisor div
-        counting_sort(vetor, n, div, temp);
-        div = div * 10;
+        counting_sort(vetor, n, div, temp); // Faça o counting sort com o divisor div
+        div = div * 10; // Atualiza o div para a proxima iteração utilizar o próximo digito
         max = max / 10;
     }
     free(temp);
@@ -77,12 +76,15 @@ void counting_sort(int *vetor, int n, int div, int *temp)
         acumulador = acumulador + aux;
     }
 
+    // Alocando cada número do vetor na sua posição correta no vetor temporario
     for (i = 0; i < n; i++)
     {
         digito = (vetor[i] / div) % 10;
         temp[c[digito]] = vetor[i];
         c[digito]++;
     }
+
+    // Copiar o vetor temporario no vetor principal
 
     // memcpy(vetor, temp, sizeof(int) * n); // Função da biblioteca string.h que copia um vetor em um outro
 
@@ -93,7 +95,6 @@ void counting_sort(int *vetor, int n, int div, int *temp)
 
 void radix_sort_print(int *vetor, int n) // Printa cada ordenação por digito usado
 {
-    // Achar a maior chave
     int max = vetor[0];
     int i;
     int div = 1;
@@ -106,10 +107,8 @@ void radix_sort_print(int *vetor, int n) // Printa cada ordenação por digito u
             max = vetor[i];
     }
 
-    // Enquanto o maior número for divisivel
     while (max > 0)
     {
-        // Faça o counting sort com o divisor div
         counting_sort(vetor, n, div, temp);
         div = div * 10;
         max = max / 10;
