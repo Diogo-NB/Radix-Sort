@@ -31,20 +31,20 @@ void radix_sort(int *vetor, int n)
     int max = vetor[0]; // Maior número
     int i;
     int div = 1;
-    int *temp = (int *)malloc(sizeof(int) * n);
+    int *temp = (int *)malloc(sizeof(int) * n); // Vetor temporário
 
-    // Achar a maior número
+    // Achar o maior número
     for (i = 0; i < n; i++)
     {
         if (vetor[i] > max)
             max = vetor[i];
     }
 
-    // Enquanto o maior número for divisivel
+    // Enquanto o maior número for divisível
     while (max > 0)
     {
         counting_sort(vetor, n, div, temp); // Faça o counting sort com o divisor div
-        div = div * 10; // Atualiza o div para a proxima iteração utilizar o próximo digito
+        div = div * 10; // Atualiza o div para a próxima iteração utilizar o próximo dígito
         max = max / 10;
     }
     free(temp);
@@ -56,7 +56,7 @@ void counting_sort(int *vetor, int n, int div, int *temp)
     int *c = (int *)calloc(sizeof(int), 10);
     int digito;
 
-    // contando a presença de cada digito
+    // contando a presença de cada dígito
     for (i = 0; i < n; i++)
     {
         // Achar digito de um numero X: (X / div) % 10
@@ -66,7 +66,7 @@ void counting_sort(int *vetor, int n, int div, int *temp)
 
     int acumulador = 0;
     /*
-    convertendo o vetor c de um vetor de contagem
+    convertendo o vetor de contagem (c)
     para um vetor de acumulo de contagem
     */
     for (i = 0; i < 10; i++)
@@ -76,7 +76,7 @@ void counting_sort(int *vetor, int n, int div, int *temp)
         acumulador = acumulador + aux;
     }
 
-    // Alocando cada número do vetor na sua posição correta no vetor temporario
+    // Alocando cada número do vetor na sua posição correta no vetor temporário
     for (i = 0; i < n; i++)
     {
         digito = (vetor[i] / div) % 10;
@@ -84,7 +84,7 @@ void counting_sort(int *vetor, int n, int div, int *temp)
         c[digito]++;
     }
 
-    // Copiar o vetor temporario no vetor principal
+    // Copiar o vetor temporário no vetor principal
 
     // memcpy(vetor, temp, sizeof(int) * n); // Função da biblioteca string.h que copia um vetor em um outro
 
@@ -93,7 +93,7 @@ void counting_sort(int *vetor, int n, int div, int *temp)
         vetor[i] = temp[i];
 }
 
-void radix_sort_print(int *vetor, int n) // Printa cada ordenação por digito usado
+void radix_sort_print(int *vetor, int n) // Printa cada ordenação por dígito usado
 {
     int max = vetor[0];
     int i;
