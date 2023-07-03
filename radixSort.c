@@ -8,6 +8,8 @@ void counting_sort(int *vetor, int n, int div, int *temp);
 
 void radix_sort_print(int *vetor, int n);
 
+int maxValue(int *vetor, int n);
+
 void main()
 {
     int N, i;
@@ -22,38 +24,42 @@ void main()
 
     for (i = 0; i < N; i++)
         printf("%i ", vetor[i]);
-
-    printf("\n");
 }
 
 void radix_sort(int *vetor, int n)
 {
-    int max = vetor[0]; // Maior número
     int i;
     int div = 1;
+    int max = maxValue(vetor, n);               // Maior número do vetor
     int *temp = (int *)malloc(sizeof(int) * n); // Vetor temporário
-
-    // Achar o maior número
-    for (i = 0; i < n; i++)
-    {
-        if (vetor[i] > max)
-            max = vetor[i];
-    }
 
     // Enquanto o maior número for divisível
     while (max > 0)
     {
-        counting_sort(vetor, n, div, temp); // Faça o counting sort com o divisor div
-        div = div * 10; // Atualiza o div para a próxima iteração utilizar o próximo dígito
+        // Faça o counting sort com o divisor div
+        counting_sort(vetor, n, div, temp);
+        // Atualiza o div para a próxima iteração utilizar o próximo dígito
+        div = div * 10;
         max = max / 10;
     }
     free(temp);
 }
 
+int maxValue(int *vetor, int n)
+{
+    int max = vetor[0];
+    for (int i = 0; i < n; i++)
+    {
+        if (vetor[i] > max)
+            max = vetor[i];
+    }
+    return max;
+}
+
 void counting_sort(int *vetor, int n, int div, int *temp)
 {
     int i, aux;
-    int *c = (int *)calloc(sizeof(int), 10);
+    int *c = (int *)calloc(sizeof(int), 10); // Vetor de contagem
     int digito;
 
     // contando a presença de cada dígito
@@ -65,10 +71,6 @@ void counting_sort(int *vetor, int n, int div, int *temp)
     }
 
     int acumulador = 0;
-    /*
-    convertendo o vetor de contagem (c)
-    para um vetor de acumulo de contagem
-    */
     for (i = 0; i < 10; i++)
     {
         aux = c[i];
@@ -84,11 +86,8 @@ void counting_sort(int *vetor, int n, int div, int *temp)
         c[digito]++;
     }
 
-    // Copiar o vetor temporário no vetor principal
-
-    // memcpy(vetor, temp, sizeof(int) * n); // Função da biblioteca string.h que copia um vetor em um outro
-
-    // Copiar "manualmente"
+    // Copia o vetor temporário
+    // memcpy(vetor, temp, sizeof(int) * n);
     for (i = 0; i < n; i++)
         vetor[i] = temp[i];
 }
